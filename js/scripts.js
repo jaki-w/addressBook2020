@@ -38,6 +38,8 @@ AddressBook.prototype.deleteContact = function(id) {
   return false;
 }
 
+
+
 //Business Logic for Contacts
 
 function Contact(firstName, lastName, phoneNumber) {
@@ -48,5 +50,8 @@ function Contact(firstName, lastName, phoneNumber) {
 
 Contact.prototype.fullName = function() {
   return this.firstName + " " + this.lastName;
+}
+Contact.prototype.updateContact = function(newPhoneNumber) {
+  this.phoneNumber = newPhoneNumber;
 }
 
