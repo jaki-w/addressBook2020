@@ -17,8 +17,10 @@ AddressBook.prototype.assignId = function() {
 
 AddressBook.prototype.findContact = function(id) {
   for (let i=0; i<this.contacts.length; i++) {
-    if (this.contacts[i].id == id) {
-      return this.contacts[i];
+    if (this.contacts[i]) {
+      if (this.contacts[i].id == id) {
+        return this.contacts[i];
+      }
     }
   };
   return false;
@@ -26,9 +28,11 @@ AddressBook.prototype.findContact = function(id) {
 
 AddressBook.prototype.deleteContact = function(id) {
   for (let i=0; i<this.contacts.length; i++) {
-    if (this.contacts[i].id == id) {
-      delete this.contacts[i];
-      return true;
+    if (this.contacts[i]) {
+      if (this.contacts[i].id == id) {
+        delete this.contacts[i];
+        return true;
+      }
     }
   };
   return false;
