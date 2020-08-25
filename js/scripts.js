@@ -1,8 +1,8 @@
 //Business Logic for AddressBook
 
 function AddressBook() {
-  this.contacts = [];
-  this.currentId = 0;
+  this.contacts = [],
+  this.currentId = 0
 }
 
 AddressBook.prototype.addContact = function(contact) {
@@ -42,10 +42,12 @@ AddressBook.prototype.deleteContact = function(id) {
 
 //Business Logic for Contacts
 
-function Contact(firstName, lastName, phoneNumber) {
-  this.firstName = firstName;
-  this.lastName = lastName;
-  this.phoneNumber = phoneNumber;
+function Contact(firstName, lastName, phoneNumber, emailAddress, physicalAddress) {
+  this.firstName = firstName,
+  this.lastName = lastName,
+  this.phoneNumber = phoneNumber,
+  this.emailAddress = emailAddress,
+  this.physicalAddress = physicalAddress
 }
 
 Contact.prototype.fullName = function() {
@@ -55,3 +57,56 @@ Contact.prototype.updateContact = function(newPhoneNumber) {
   this.phoneNumber = newPhoneNumber;
 }
 
+// User Interface Logic ---------
+let addressBook = new AddressBook();
+
+function displayContactDetails(addressBookToDisplay) {
+  let contactsList = $("ul#contacts");
+  let htmlForContactInfo = "";
+  addressBookToDisplay.contacts.forEach(function(contact) {
+    htmlForConactInfo += "<li id=" + contact.id + ">" + contact.firstName + " " + contact.lastName + "</li>";
+  });
+  contactsList.html(htmlForContactInfo);
+};
+
+function showContact(contactId) {
+  const contact = addressBook.findContact(contactId);
+  $("show-contact").show();
+  $(".first-name").html(contact.firstName);
+  $(".last-name").html(contact.lastName);
+  $(".phone-number").html(contact.phoneNumber);
+  $(".email-address").html(contact.emailAddress);
+  $(".physical-addresss").html(contact.physicalAddress);
+  let buttons = $("#buttons");
+  buttons.empty();
+  buttons.append("<button class='deleteButton' id=" +  contact.id + ">Delete</button>");
+}
+
+function attachContactListeners() {
+  $("ul#contacts").on("click", "li", function() {
+    showContact(this.id);
+  });
+  $("#buttons").on("click", ".deleteButton", function() {
+    addressBook.deleteContact(this.id);
+    $("#show-contact").hide();
+    displayContactDetails(addressBook);
+  })
+};
+
+$(document).ready(function() {
+  attachContactListeners();
+  $("form#new-contact").submit(function(event) {
+    event.preventDefault();
+    const inputtedFirstName = $("input#new-first-name").val();
+    const inputtedLastName = $("input#new-last-name").val();
+    const inputtedPhoneNumber = $("input#new-phone-number").val();
+    const inputtedEmailAddress = $("input#new-email-address").val();
+    const inputtedPhysicalAddress = $("input#new-physical-address").val();
+    $("input#new-first-name").val("");
+    $("input#new-last-name").val("");
+    $("input#new-phone-number").val();
+    let newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber, inputtedEmailAddress, inputtedPhysicalAddress);
+    addressBook.addContact(newContact);
+    displayContactDetails(addressBook);
+  });
+});
