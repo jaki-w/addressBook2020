@@ -50,6 +50,13 @@ function Contact(firstName, lastName, phoneNumber, emailAddress, physicalAddress
   this.physicalAddress = physicalAddress
 }
 
+function Address(homeAddress, workAddress, personalEmailAddress, workEmailAddress) {
+  this.homeAddress = homeAddress;
+  this.workAddress = workAddress;
+  this.personalEmailAddress = personalEmailAddress;
+  this.workEmailAddress = workEmailAddress;
+}
+
 Contact.prototype.fullName = function() {
   return this.firstName + " " + this.lastName;
 }
@@ -64,7 +71,7 @@ function displayContactDetails(addressBookToDisplay) {
   let contactsList = $("ul#contacts");
   let htmlForContactInfo = "";
   addressBookToDisplay.contacts.forEach(function(contact) {
-    htmlForConactInfo += "<li id=" + contact.id + ">" + contact.firstName + " " + contact.lastName + "</li>";
+    htmlForContactInfo += "<li id=" + contact.id + ">" + contact.firstName + " " + contact.lastName + "</li>";
   });
   contactsList.html(htmlForContactInfo);
 };
@@ -102,9 +109,11 @@ $(document).ready(function() {
     const inputtedPhoneNumber = $("input#new-phone-number").val();
     const inputtedEmailAddress = $("input#new-email-address").val();
     const inputtedPhysicalAddress = $("input#new-physical-address").val();
-    $("input#new-first-name").val("");
-    $("input#new-last-name").val("");
+    $("input#new-first-name").val();
+    $("input#new-last-name").val();
     $("input#new-phone-number").val();
+    $("input#new-email-address").val();
+    $("input#new-physical-address").val();
     let newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber, inputtedEmailAddress, inputtedPhysicalAddress);
     addressBook.addContact(newContact);
     displayContactDetails(addressBook);
